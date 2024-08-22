@@ -1,11 +1,17 @@
-from bs4 import BeautifulSoup
-import requests
+import pandas
 
-response = requests.get("https://news.ycombinator.com/")
-webpage_text = response.text
+alphabets = pandas.read_csv("nato_phonetic_alphabet.csv")
 
-soup = BeautifulSoup(webpage_text, "html.parser")
-text = soup.findAll(name="span", class_="titleline")
 
-for single_text in text:
-    print(single_text.select_one("a").string.strip())
+new_dic = {row.letter:row.code for (index,row)in alphabets.iterrows()}
+print(new_dic)
+def phonetic():
+    word = input("enter the word : ").upper()
+    try:
+        output = new_list = [new_dic[letter] for letter in word]
+    except KeyError:
+        print("sorry the enter only alphabet")
+        phonetic()
+    else:
+        print(output)
+phonetic()
